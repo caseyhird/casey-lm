@@ -1,5 +1,7 @@
 # casey-lm
 
+development:
+- to run in colab, open an ipynb notebook in github, then change the url from 'github.com' to 'githubtocolab.com' (as instructed [here](https://stackoverflow.com/questions/62596466/how-can-i-run-notebooks-of-a-github-project-in-google-colab))
 
 todo:
 - add readme details
