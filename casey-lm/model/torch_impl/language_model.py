@@ -1,6 +1,7 @@
 from torch import nn, arange, Tensor, zeros_like, triu, ones
 from jaxtyping import Int, Float
 from dataclasses import dataclass
+
 @dataclass
 class LanguageModelConfig():
     vocab_size: int
@@ -25,7 +26,8 @@ class TorchLanguageModel(nn.Module):
         self.transformer = nn.TransformerDecoder(
             nn.TransformerDecoderLayer(
                 d_model=config.embedding_dim,
-                nhead=config.num_heads
+                nhead=config.num_heads,
+                batch_first=True # TODO: noticed in docs, haven't yet tested
             ),
             num_layers=config.num_decoder_layers,
             norm=nn.LayerNorm(config.embedding_dim)

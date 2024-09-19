@@ -44,6 +44,10 @@ ptyprocess==0.7.0
 pure_eval==0.2.3
 pyarrow==17.0.0
 Pygments==2.18.0
+pyobjc-core==10.3.1
+pyobjc-framework-Cocoa==10.3.1
+pyobjc-framework-libdispatch==10.3.1
+pyobjc-framework-Metal==10.3.1
 python-dateutil==2.9.0.post0
 pytz==2024.2
 PyYAML==6.0.2
@@ -56,6 +60,7 @@ six==1.16.0
 stack-data==0.6.3
 sympy==1.13.2
 tiktoken==0.7.0
+tinygrad==0.9.2
 tokenizers==0.19.1
 torch==2.4.1
 tornado==6.4.1
