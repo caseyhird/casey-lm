@@ -1,17 +1,8 @@
 from tinygrad import Tensor, nn
 from jaxtyping import Float
 
-# TODO: types of attention based on wehther q, k, v are the same or different
-# e.g. self attention (q=k=v) or cross attention (q!=k=v)
-# TODO: types of attention based on mask
-# e.g. causal attention (mask future tokens) or full attention (no mask)
-# TODO: types of attention based on how multiple heads are computed and combined
-# e.g. split embeddings before computing attention or use full embedding as input for each head
-# have head outputs concatenate or sum to get final output
-# TODO: try multiple heads in a single tensor and see if that affects performance
 class SelfAttention:
     def __init__(self, d_model: int, n_head: int, dropout_p: float):
-        super().__init__()
         assert d_model % n_head == 0, "d_model must be divisible by n_head"
         d_head = d_model // n_head
         self.attention_heads = [AttentionHead(d_model, d_head, dropout_p) for _ in range(n_head)]
