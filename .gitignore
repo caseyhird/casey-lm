@@ -1,2 +1,4 @@
 casey-lm-venv/
 __pycache__/
+runs/
+*.pt

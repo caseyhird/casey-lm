@@ -1,6 +1,9 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
-    name='model',
-    version='1.0',
+    name="casey-lm",
+    version="1.0",
+    package_dir={"": "casey-lm"},
+    packages=find_packages(where="casey-lm"),
+    python_requires=">=3.10",
 )

@@ -1,16 +1,7 @@
 from torch import nn, arange, Tensor, zeros_like, triu, ones
 from jaxtyping import Int, Float
-from dataclasses import dataclass
 
-@dataclass
-class LanguageModelConfig():
-    vocab_size: int
-    context_length: int
-    embedding_dim: int
-    num_decoder_layers: int
-    num_heads: int
-    dim_feedforward: int
-    dropout: float
+from model.config import LanguageModelConfig
 
 class TorchLanguageModel(nn.Module):
     def __init__(
@@ -27,7 +18,9 @@ class TorchLanguageModel(nn.Module):
             nn.TransformerDecoderLayer(
                 d_model=config.embedding_dim,
                 nhead=config.num_heads,
-                batch_first=True # TODO: noticed in docs, haven't yet tested
+                dim_feedforward=config.dim_feedforward,
+                dropout=config.dropout,
+                batch_first=True,
             ),
             num_layers=config.num_decoder_layers,
             norm=nn.LayerNorm(config.embedding_dim)
@@ -38,7 +31,9 @@ class TorchLanguageModel(nn.Module):
 
     def forward(self, x: Int[Tensor, "batch_size sequence_length"]) -> Float[Tensor, "batch_size sequence_length vocab_size"]:
         # Embed position values for each position in the sequence
-        pos_embeddings: Float[Tensor, "sequence_length embedding_dim"] = self.position_embedding(arange(0, x.size(1)))
+        pos_embeddings: Float[Tensor, "sequence_length embedding_dim"] = self.position_embedding(
+            arange(0, x.size(1), device=x.device)
+        )
         # Embed the token values for each token in the sequence
         token_embeddings: Float[Tensor, "batch_size sequence_length embedding_dim"] = self.token_embedding(x)
         # Combine the position and token embeddings
@@ -49,7 +44,7 @@ class TorchLanguageModel(nn.Module):
         dummy_memory = zeros_like(combined_embeddings)
         seq_len = combined_embeddings.shape[1]
         # TODO: generate_square_subsequent_mask ?
-        causal_mask = triu(ones(seq_len, seq_len), diagonal=1).bool()
+        causal_mask = triu(ones(seq_len, seq_len, device=x.device), diagonal=1).bool()
         # Run decoder with causal mask
         transformer_output: Float[Tensor, "batch_size sequence_length embedding_dim"] = self.transformer(
             combined_embeddings,

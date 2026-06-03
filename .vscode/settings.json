@@ -1,6 +1,10 @@
 {
+    "python.defaultInterpreterPath": "${workspaceFolder}/casey-lm-venv/bin/python",
     "files.associations": {
         "llm.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "algorithm": "cpp",
+        "cstdlib": "cpp",
+        "random": "cpp"
     }
 }

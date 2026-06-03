@@ -13,16 +13,16 @@ LDFLAGS :=
 
 # Source files
 SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
-TEST_FILES := $(wildcard $(TEST_DIR)/*_test.c)
+TEST_FILES := $(wildcard $(TEST_DIR)/*.c)
 
 # Object files - separate directories for src and test objects
 SRC_OBJ_DIR := $(BUILD_DIR)/src_obj
 TEST_OBJ_DIR := $(BUILD_DIR)/test_obj
 
 SRC_OBJS := $(patsubst $(SRC_DIR)/%.c,$(SRC_OBJ_DIR)/%.o,$(SRC_FILES))
-TEST_OBJS := $(patsubst $(TEST_DIR)/%_test.c,$(TEST_OBJ_DIR)/%.o,$(TEST_FILES))
+TEST_OBJS := $(patsubst $(TEST_DIR)/%.c,$(TEST_OBJ_DIR)/%.o,$(TEST_FILES))
 OBJ_FILES := $(SRC_OBJS) $(TEST_OBJS)
-
+$(info OBJ_FILES is $(OBJ_FILES))
 # Target executable
 TARGET := $(BUILD_DIR)/test_tensor
 
@@ -42,7 +42,7 @@ $(SRC_OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Compile test files
-$(TEST_OBJ_DIR)/%.o: $(TEST_DIR)/%_test.c
+$(TEST_OBJ_DIR)/%.o: $(TEST_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 test: build
